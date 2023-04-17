@@ -1,6 +1,9 @@
 from flask import Flask, jsonify
 from config import config
 
+# Routes
+from src.routes import Movie
+
 app = Flask(__name__)
 
 
@@ -16,6 +19,9 @@ def page_not_found(error):
 
 if __name__ == "__main__":
     app.config.from_object(config["development"])
+
+    # Blueprints -> Planos de las rutas
+    app.register_blueprint(Movie.main, url_prefix="/api/movies")
 
     # Error handlers
     app.register_error_handler(404, page_not_found)
