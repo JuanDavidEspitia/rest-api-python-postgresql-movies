@@ -6,11 +6,12 @@ from src.routes import Movie
 
 app = Flask(__name__)
 
-
 # Mensaje de Bienvenida
-@app.route("/", methods=["GET"])
+"""@app.route("/", methods=["GET"])
 def index():
     return jsonify({"Mensaje": "Bienvenido al curso de API Rest Python con PostgreSQL"})
+
+"""
 
 
 def page_not_found(error):
