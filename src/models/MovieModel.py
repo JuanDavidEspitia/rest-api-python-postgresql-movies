@@ -63,3 +63,38 @@ class MovieModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
+
+    @classmethod
+    def delete_movie(self, movie):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM movie WHERE id = %s", (movie.id,))
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+
+
+
+    @classmethod
+    def update_movie(self, movie):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """UPDATE movie SET title = %s, duration = %s, released = %s 
+                    WHERE id = %s""", (movie.title, movie.duration, movie.released, movie.id),
+                )
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
