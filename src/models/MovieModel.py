@@ -23,3 +23,43 @@ class MovieModel:
             return movies
         except Exception as ex:
             raise Exception(ex)
+
+    @classmethod
+    def get_movie(self, id):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT id, title, duration, released FROM movie WHERE id=%s", (id,)
+                )  # termina en ,
+                row = cursor.fetchone()
+
+                movie = None
+                if row is not None:
+                    movie = Movie(row[0], row[1], row[2], row[3])
+                    movie = movie.to_JSON()
+
+            connection.close()
+            return movie
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def add_movie(self, movie):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """INSERT INTO movie (id, title, duration, released)
+                VALUES (%s, %s, %s, %s)""",
+                    (movie.id, movie.title, movie.duration, movie.released),
+                )
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
