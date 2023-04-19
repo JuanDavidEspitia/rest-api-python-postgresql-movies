@@ -1,10 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask
+from flask_cors import CORS
+
 from config import config
 
 # Routes
 from src.routes import Movie
 
 app = Flask(__name__)
+
+# Para otorgar acceso a la API de ser consumida
+CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 
 # Mensaje de Bienvenida
 """@app.route("/", methods=["GET"])
